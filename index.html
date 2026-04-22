@@ -28,7 +28,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--bg);
+    background: #050403;
     color: var(--ink);
     font-family: var(--body);
     font-weight: 400;
@@ -40,6 +40,16 @@
   }
   img { max-width: 100%; display: block; }
   a { color: inherit; text-decoration: none; }
+
+  /* ===== SHELL: centered reading width ===== */
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    background: var(--bg);
+    position: relative;
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+  }
 
   /* ===== GRAIN OVERLAY ===== */
   body::before {
@@ -56,7 +66,11 @@
   /* ===== NAV ===== */
   .nav {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1180px;
     z-index: 100;
     padding: 1.5rem 2rem;
     display: flex;
@@ -64,6 +78,7 @@
     align-items: center;
     mix-blend-mode: difference;
     color: #fff;
+    pointer-events: none;
   }
   .nav-mark {
     font-family: var(--mono);
@@ -121,7 +136,7 @@
   }
   .hero-title {
     font-family: var(--display);
-    font-size: clamp(5rem, 19vw, 19rem);
+    font-size: clamp(5rem, 14vw, 12rem);
     line-height: 0.82;
     letter-spacing: -0.01em;
     text-transform: uppercase;
@@ -189,7 +204,7 @@
     padding: clamp(5rem, 10vw, 9rem) 2rem;
     position: relative;
   }
-  .wrap { max-width: 1400px; margin: 0 auto; }
+  .wrap { max-width: 100%; margin: 0 auto; }
 
   .section-head {
     display: grid;
@@ -209,7 +224,7 @@
   }
   .section-title {
     font-family: var(--display);
-    font-size: clamp(2.6rem, 6.5vw, 6rem);
+    font-size: clamp(2.6rem, 5.2vw, 4.4rem);
     line-height: 0.92;
     letter-spacing: -0.01em;
     text-transform: uppercase;
@@ -345,6 +360,30 @@
   .card.span-4 { grid-column: span 4; }
   .card.span-3 { grid-column: span 3; aspect-ratio: 3 / 4; }
   .card.span-8 { grid-column: span 8; aspect-ratio: 16 / 11; }
+
+  /* Press screenshot card */
+  .press-shot {
+    background: #f4efe5;
+  }
+  .press-shot img {
+    object-fit: cover;
+    object-position: center top;
+    filter: none;
+  }
+  .press-shot:hover img { filter: none; }
+  .card-overlay.light {
+    background: linear-gradient(180deg, transparent 55%, rgba(244, 239, 229, 0.98) 100%);
+  }
+  .card-overlay.light .card-tag { color: var(--accent); }
+  .card-overlay.light .card-title-sm {
+    font-family: var(--display);
+    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+    line-height: 0.98;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    color: #0a0908;
+  }
+  .card-overlay.light .card-meta { color: rgba(10,9,8,0.65); }
 
   /* Press mention card (not an image card) */
   .press-card {
@@ -572,7 +611,7 @@
   }
   .contact-big {
     font-family: var(--display);
-    font-size: clamp(3.5rem, 11vw, 11rem);
+    font-size: clamp(3.5rem, 9vw, 8rem);
     line-height: 0.9;
     text-transform: uppercase;
     letter-spacing: -0.02em;
@@ -649,6 +688,8 @@
   <div class="nav-mark">DEEP <span>/</span> END</div>
   <div class="nav-meta">A project by Liam Kalevi · MMXXVI</div>
 </div>
+
+<div class="shell">
 
 <!-- ===================== HERO ===================== -->
 <header class="hero">
@@ -756,15 +797,14 @@
         </div>
       </article>
 
-      <!-- Press card -->
-      <article class="press-card reveal">
-        <div class="press-label">Press · Resumé, Jan 2026</div>
-        <blockquote class="press-quote">
-          "Liam Kalevi frontar Kexchoklad – ger sig på skicross."
-        </blockquote>
-        <div class="press-attrib">
-          Sweden's leading marketing &amp; media publication. <br/>
-          <strong>Coverage, not advertising.</strong>
+      <!-- Press: Resumé article screenshot -->
+      <article class="card press-shot span-4 reveal">
+        <div class="card-press">Press</div>
+        <img src="images/press-resume.jpg" alt="Resumé article featuring Liam Kalevi" />
+        <div class="card-overlay light">
+          <div class="card-tag">Resumé · Jan 2026</div>
+          <div class="card-title-sm">Ski Cross Campaign<br/>in the Swedish Press</div>
+          <div class="card-meta">Sweden's leading marketing and media publication.</div>
         </div>
       </article>
 
@@ -898,6 +938,8 @@
   <div>Deep End · Liam Kalevi</div>
   <div>Kalevi AB · Stockholm</div>
 </footer>
+
+</div><!-- /shell -->
 
 <script>
   // Scroll reveal
