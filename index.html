@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deep End — Liam Kalevi</title>
+<meta name="description" content="Deep End is the direction of Liam Kalevi's content — a long-running push into the worlds of elite athletes." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0908;
+    --bg-soft: #15120f;
+    --ink: #f2ece0;
+    --ink-dim: rgba(242, 236, 224, 0.58);
+    --ink-faint: rgba(242, 236, 224, 0.22);
+    --rule: rgba(242, 236, 224, 0.14);
+    --accent: #ff4a1c;
+    --accent-soft: rgba(255, 74, 28, 0.12);
+
+    --display: 'Anton', 'Arial Narrow', sans-serif;
+    --serif: 'Fraunces', 'Times New Roman', serif;
+    --body: 'DM Sans', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ===== GRAIN OVERLAY ===== */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.045;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: difference;
+    color: #fff;
+  }
+  .nav-mark {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .nav-mark span { color: var(--accent); }
+  .nav-meta {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 640px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 2rem;
+  }
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 22%;
+    z-index: 0;
+    filter: contrast(1.08) saturate(0.92) brightness(0.88);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,9,8,0.55) 0%, rgba(10,9,8,0.15) 30%, rgba(10,9,8,0.15) 55%, rgba(10,9,8,0.92) 100%);
+    z-index: 1;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2rem;
+  }
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(5rem, 19vw, 19rem);
+    line-height: 0.82;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: -0.04em;
+  }
+  .hero-title .amp {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    font-size: 0.78em;
+    letter-spacing: 0;
+    text-transform: lowercase;
+    display: inline-block;
+    transform: translateY(-0.15em);
+  }
+  .hero-tag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(0.95rem, 1.1vw, 1.2rem);
+    line-height: 1.35;
+    color: var(--ink-dim);
+    max-width: 24ch;
+    text-align: right;
+    padding-bottom: 1.5rem;
+  }
+  .hero-foot {
+    position: absolute;
+    bottom: 1.6rem; left: 2rem; right: 2rem;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    pointer-events: none;
+  }
+  .hero-foot .pill {
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--ink-faint);
+    border-radius: 999px;
+    color: var(--ink);
+  }
+  .hero-foot .pill .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-right: 0.6rem;
+    vertical-align: middle;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ===== SECTION BASE ===== */
+  section {
+    padding: clamp(5rem, 10vw, 9rem) 2rem;
+    position: relative;
+  }
+  .wrap { max-width: 1400px; margin: 0 auto; }
+
+  .section-head {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+    align-items: baseline;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+    padding-top: 0.6rem;
+  }
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(2.6rem, 6.5vw, 6rem);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .section-title em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    text-transform: lowercase;
+    font-size: 0.8em;
+  }
+  .section-sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+    line-height: 1.35;
+    color: var(--ink-dim);
+    max-width: 32ch;
+    margin: -2.5rem 0 3.5rem auto;
+    text-align: right;
+  }
+
+  /* ===== INTRO ===== */
+  .intro {
+    border-top: 1px solid var(--rule);
+  }
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .intro-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 1.5rem;
+  }
+  .intro-lede {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+    line-height: 1.22;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .intro-lede em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .intro-body {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--ink-dim);
+  }
+  .intro-body p + p { margin-top: 1.2rem; }
+
+  /* ===== WORK GRID (asymmetric) ===== */
+  .work {
+    background: var(--bg-soft);
+    border-top: 1px solid var(--rule);
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.2rem;
+  }
+  .card {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 4 / 5;
+    cursor: default;
+  }
+  .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease;
+    filter: saturate(0.9) contrast(1.03);
+  }
+  .card:hover img {
+    transform: scale(1.04);
+    filter: saturate(1) contrast(1.05);
+  }
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 45%, rgba(10,9,8,0.85) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    gap: 0.4rem;
+  }
+  .card-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .card-title {
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+  }
+  .card-meta {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-dim);
+    margin-top: 0.3rem;
+  }
+  .card-press {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.7rem;
+    z-index: 2;
+  }
+
+  .card.span-6 { grid-column: span 6; aspect-ratio: 5 / 6; }
+  .card.span-4 { grid-column: span 4; }
+  .card.span-3 { grid-column: span 3; aspect-ratio: 3 / 4; }
+  .card.span-8 { grid-column: span 8; aspect-ratio: 16 / 11; }
+
+  /* Press mention card (not an image card) */
+  .press-card {
+    grid-column: span 4;
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    aspect-ratio: 3 / 4;
+    transition: border-color 0.4s ease;
+  }
+  .press-card:hover { border-color: var(--accent); }
+  .press-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .press-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.2rem, 1.7vw, 1.6rem);
+    line-height: 1.25;
+    color: var(--ink);
+    margin: 1.5rem 0;
+  }
+  .press-attrib {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .press-attrib strong { color: var(--ink); font-weight: 500; }
+
+  /* ===== AUDIENCE ===== */
+  .reach {
+    border-top: 1px solid var(--rule);
+  }
+  .reach-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 3rem;
+  }
+  .reach-row-two { grid-template-columns: repeat(2, 1fr); margin-bottom: 0; }
+  .reach-cell {
+    background: var(--bg);
+    padding: 2rem 1.5rem 2rem;
+  }
+  .reach-num {
+    font-family: var(--display);
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  .reach-num .unit {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    font-size: 0.5em;
+    margin-left: 0.15em;
+  }
+  .reach-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .reach-sub {
+    display: block;
+    margin-top: 0.3rem;
+    color: var(--ink-faint);
+    font-size: 0.6rem;
+  }
+  .reach-note {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 0.8rem 0;
+    border-top: 1px dashed var(--rule);
+  }
+
+  /* ===== SLATE ===== */
+  .slate {
+    background: var(--bg-soft);
+    border-top: 1px solid var(--rule);
+  }
+  .slate-list {
+    border-top: 1px solid var(--rule);
+  }
+  .slate-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 2rem;
+    padding: 1.8rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+    transition: padding 0.35s ease, background 0.35s ease;
+  }
+  .slate-row:hover {
+    padding-left: 1rem;
+    background: linear-gradient(90deg, var(--accent-soft) 0%, transparent 60%);
+  }
+  .slate-ep {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .slate-date {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .slate-title {
+    font-family: var(--display);
+    font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+  }
+  .slate-title em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    text-transform: lowercase;
+    font-size: 0.75em;
+  }
+  .slate-status {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+  }
+  .slate-status.in-prod { color: var(--accent); border-color: var(--accent); }
+
+  /* ===== PARTNERS ===== */
+  .partners { border-top: 1px solid var(--rule); }
+  .partners-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .slot {
+    background: var(--bg);
+    padding: 2.4rem 1.5rem;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .slot-category {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .slot-partner {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+  .slot.open .slot-partner {
+    color: var(--ink-faint);
+  }
+  .slot.confirmed {
+    background: var(--bg);
+    position: relative;
+  }
+  .slot.confirmed::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--accent);
+  }
+  .slot-state {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .slot.confirmed .slot-state { color: var(--accent); }
+  .slot.open .slot-state { color: var(--ink-faint); }
+
+  /* ===== CONTACT ===== */
+  .contact {
+    padding: clamp(6rem, 14vw, 12rem) 2rem;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  .contact-kicker {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+  .contact-big {
+    font-family: var(--display);
+    font-size: clamp(3.5rem, 11vw, 11rem);
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+  .contact-big em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    text-transform: lowercase;
+    font-size: 0.78em;
+  }
+  .contact-email {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    color: var(--ink);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 0.2rem;
+    transition: color 0.25s ease;
+  }
+  .contact-email:hover { color: var(--accent); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    padding: 2rem;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* ===== REVEAL ANIMATIONS ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .hero-content { grid-template-columns: 1fr; }
+    .hero-tag { text-align: left; max-width: 100%; padding-bottom: 0; }
+    .section-head { grid-template-columns: 1fr; gap: 1rem; }
+    .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .reach-row { grid-template-columns: repeat(2, 1fr); }
+    .partners-grid { grid-template-columns: repeat(2, 1fr); }
+    .card.span-6, .card.span-4, .card.span-3, .card.span-8, .press-card { grid-column: span 6; }
+    .work-grid { grid-template-columns: repeat(6, 1fr); }
+    .slate-row {
+      grid-template-columns: 50px 1fr;
+      gap: 1rem;
+      padding: 1.4rem 0;
+    }
+    .nav { padding: 1rem 1.2rem; }
+    .hero-foot { left: 1.2rem; right: 1.2rem; }
+    section { padding: 4rem 1.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<div class="nav">
+  <div class="nav-mark">DEEP <span>/</span> END</div>
+  <div class="nav-meta">A project by Liam Kalevi · MMXXVI</div>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <img class="hero-img" src="images/hero.jpg" alt="Liam Kalevi at the starting blocks, track and field" />
+  <div class="hero-content">
+    <h1 class="hero-title">Deep<br/>End<span class="amp">.</span></h1>
+    <p class="hero-tag">A regular guy, in the world of pro athletes.</p>
+  </div>
+  <div class="hero-foot">
+    <span>Scroll to enter</span>
+    <span class="pill"><span class="dot"></span>Red Bull · Confirmed partner</span>
+  </div>
+</header>
+
+<!-- ===================== INTRO ===================== -->
+<section class="intro" id="intro">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-num">01 — The Idea</div>
+      <h2 class="section-title">Sports is my life.<br/><em>The pros are my friends.</em></h2>
+    </div>
+
+    <div class="intro-grid">
+      <div class="reveal">
+        <div class="intro-label">What Deep End is</div>
+        <p class="intro-lede">
+          For three years I've worked with the world's best athletes. Interviewed them, filmed them, travelled with them. A lot of them became friends. <em>Deep End is me going further.</em> I'm training with them, doing what they do, and bringing the audience all the way in.
+        </p>
+      </div>
+      <div class="intro-body reveal">
+        <p>Red Bull is the first partner. A few more category slots are open alongside them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK ===================== -->
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-num">02 — What I've Been Doing</div>
+      <h2 class="section-title">Already <em>in</em> the deep end.</h2>
+    </div>
+    <p class="section-sub reveal">This is what the last three years have looked like. Deep End is me turning it into a proper project.</p>
+
+    <div class="work-grid">
+
+      <!-- Red Bull Homerun — hero card -->
+      <article class="card span-6 reveal">
+        <img src="images/homerun.jpg" alt="Liam at Red Bull Homerun ski race" />
+        <div class="card-overlay">
+          <div class="card-tag">Skiing</div>
+          <div class="card-title">Red Bull Homerun, Åre</div>
+          <div class="card-meta">500 racers, one mountain. I got in and raced.</div>
+        </div>
+      </article>
+
+      <!-- Leclerc -->
+      <article class="card span-6 reveal">
+        <img src="images/leclerc.jpg" alt="Liam with Charles Leclerc at a Ferrari event" />
+        <div class="card-overlay">
+          <div class="card-tag">Formula 1</div>
+          <div class="card-title">Leclerc's First Monaco Win</div>
+          <div class="card-meta">In Monaco when Charles finally won at home.</div>
+        </div>
+      </article>
+
+      <!-- Muay Thai -->
+      <article class="card span-4 reveal">
+        <img src="images/muaythai.jpg" alt="Liam training Muay Thai in Thailand" />
+        <div class="card-overlay">
+          <div class="card-tag">Combat Sports</div>
+          <div class="card-title">Training in Thailand</div>
+          <div class="card-meta">Years inside combat sports. Deep connections in the camps.</div>
+        </div>
+      </article>
+
+      <!-- Duplantis -->
+      <article class="card span-4 reveal">
+        <img src="images/duplantis.jpg" alt="Liam interviewing Mondo Duplantis" />
+        <div class="card-overlay">
+          <div class="card-tag">Track &amp; Field</div>
+          <div class="card-title">With Mondo Duplantis</div>
+          <div class="card-meta">The pole vault world record holder, at home in Stockholm.</div>
+        </div>
+      </article>
+
+      <!-- Formula E -->
+      <article class="card span-4 reveal">
+        <img src="images/formula-e.jpg" alt="Liam on the Formula E grid in Jeddah" />
+        <div class="card-overlay">
+          <div class="card-tag">Formula E</div>
+          <div class="card-title">Grid Walk, Jeddah</div>
+          <div class="card-meta">Next: sponsored coverage at the Monaco E-Prix.</div>
+        </div>
+      </article>
+
+      <!-- Hockey -->
+      <article class="card span-8 reveal">
+        <img src="images/hockey.jpg" alt="Liam on the ice in Malmö Redhawks kit" />
+        <div class="card-overlay">
+          <div class="card-tag">Ice Hockey</div>
+          <div class="card-title">On the Ice with Malmö Redhawks</div>
+          <div class="card-meta">Challenged by the pros on their home ice.</div>
+        </div>
+      </article>
+
+      <!-- Press card -->
+      <article class="press-card reveal">
+        <div class="press-label">Press · Resumé, Jan 2026</div>
+        <blockquote class="press-quote">
+          "Liam Kalevi frontar Kexchoklad – ger sig på skicross."
+        </blockquote>
+        <div class="press-attrib">
+          Sweden's leading marketing &amp; media publication. <br/>
+          <strong>Coverage, not advertising.</strong>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== REACH ===================== -->
+<section class="reach" id="reach">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-num">03 — The Audience</div>
+      <h2 class="section-title">Close to a<br/><em>million</em> following.</h2>
+    </div>
+
+    <div class="reach-row reach-row-two reveal">
+      <div class="reach-cell">
+        <div class="reach-num">840K<span class="unit">+</span></div>
+        <div class="reach-label">TikTok<span class="reach-sub">@liamkalevi</span></div>
+      </div>
+      <div class="reach-cell">
+        <div class="reach-num">100K<span class="unit">+</span></div>
+        <div class="reach-label">Instagram<span class="reach-sub">@liamkalevi</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SLATE ===================== -->
+<section class="slate" id="slate">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-num">04 — Coming Up</div>
+      <h2 class="section-title">On the <em>calendar</em><br/>this year.</h2>
+    </div>
+
+    <div class="slate-list">
+      <div class="slate-row reveal">
+        <div class="slate-ep">01</div>
+        <h3 class="slate-title">Formula 1 <em>· Miami</em></h3>
+      </div>
+      <div class="slate-row reveal">
+        <div class="slate-ep">02</div>
+        <h3 class="slate-title">Formula E <em>· Monaco</em></h3>
+      </div>
+      <div class="slate-row reveal">
+        <div class="slate-ep">03</div>
+        <h3 class="slate-title">Boxing <em>· Copenhagen</em></h3>
+      </div>
+      <div class="slate-row reveal">
+        <div class="slate-ep">04</div>
+        <h3 class="slate-title">MMA <em>· Stockholm</em></h3>
+      </div>
+      <div class="slate-row reveal">
+        <div class="slate-ep">05</div>
+        <h3 class="slate-title">Skiing <em>· Åre</em></h3>
+      </div>
+      <div class="slate-row reveal">
+        <div class="slate-ep">06</div>
+        <h3 class="slate-title">Hyrox <em>· Stockholm</em></h3>
+      </div>
+      <div class="slate-row reveal">
+        <div class="slate-ep">07</div>
+        <h3 class="slate-title">Tennis <em>· United Kingdom</em></h3>
+      </div>
+      <div class="slate-row reveal">
+        <div class="slate-ep">08</div>
+        <h3 class="slate-title">Tour de France <em>· France</em></h3>
+      </div>
+      <div class="slate-row reveal">
+        <div class="slate-ep">09</div>
+        <h3 class="slate-title">Basketball <em>· Stockholm</em></h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PARTNERS ===================== -->
+<section class="partners" id="partners">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-num">05 — Partners</div>
+      <h2 class="section-title">One partner<br/>per <em>category.</em></h2>
+    </div>
+
+    <div class="partners-grid reveal">
+      <div class="slot confirmed">
+        <div class="slot-category">Energy Drink</div>
+        <div class="slot-partner">Red Bull</div>
+        <div class="slot-state">Taken</div>
+      </div>
+      <div class="slot open">
+        <div class="slot-category">Apparel</div>
+        <div class="slot-partner">Open</div>
+        <div class="slot-state">Available</div>
+      </div>
+      <div class="slot open">
+        <div class="slot-category">Nutrition</div>
+        <div class="slot-partner">Open</div>
+        <div class="slot-state">Available</div>
+      </div>
+      <div class="slot open">
+        <div class="slot-category">Footwear</div>
+        <div class="slot-partner">Open</div>
+        <div class="slot-state">Available</div>
+      </div>
+      <div class="slot open">
+        <div class="slot-category">Tech</div>
+        <div class="slot-partner">Open</div>
+        <div class="slot-state">Available</div>
+      </div>
+      <div class="slot open">
+        <div class="slot-category">Automotive</div>
+        <div class="slot-partner">Open</div>
+        <div class="slot-state">Available</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-kicker reveal">Interested in a seat at the project?</div>
+    <h2 class="contact-big reveal">Come <em>on</em><br/>in<span style="color: var(--accent);">.</span></h2>
+    <a class="contact-email reveal" href="mailto:liam@kalevi.se">liam@kalevi.se</a>
+  </div>
+</section>
+
+<footer>
+  <div>Deep End · Liam Kalevi</div>
+  <div>Kalevi AB · Stockholm</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    // stagger within groups
+    const parent = el.parentElement;
+    const siblings = Array.from(parent.querySelectorAll('.reveal'));
+    const idx = siblings.indexOf(el);
+    el.style.transitionDelay = `${Math.min(idx * 90, 540)}ms`;
+    io.observe(el);
+  });
+
+  // Subtle hero parallax
+  const heroImg = document.querySelector('.hero-img');
+  if (heroImg) {
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < window.innerHeight) {
+        heroImg.style.transform = `translateY(${y * 0.12}px) scale(1.04)`;
+      }
+    }, { passive: true });
+  }
+</script>
+
+</body>
+</html>
