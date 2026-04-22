@@ -45,13 +45,162 @@
   .shell {
     max-width: 1180px;
     margin: 0 auto;
-    background: var(--bg);
+    background:
+      linear-gradient(to right,
+        #050403 0%,
+        var(--bg) 4%,
+        var(--bg) 96%,
+        #050403 100%);
     position: relative;
-    border-left: 1px solid var(--rule);
-    border-right: 1px solid var(--rule);
+    z-index: 2;
   }
 
-  /* ===== GRAIN OVERLAY ===== */
+  /* ===== AMBIENT GLOWS (drifting orange orbs) ===== */
+  .glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+  }
+  .glow-1 {
+    width: 38vw;
+    height: 38vw;
+    background: radial-gradient(circle, rgba(255, 74, 28, 0.38) 0%, rgba(255, 74, 28, 0.08) 40%, transparent 70%);
+    top: -8vh;
+    left: -12vw;
+    animation: drift-1 34s ease-in-out infinite alternate;
+  }
+  .glow-2 {
+    width: 32vw;
+    height: 32vw;
+    background: radial-gradient(circle, rgba(255, 74, 28, 0.28) 0%, rgba(255, 74, 28, 0.06) 45%, transparent 70%);
+    bottom: -8vh;
+    right: -12vw;
+    animation: drift-2 42s ease-in-out infinite alternate;
+  }
+  .glow-3 {
+    width: 24vw;
+    height: 24vw;
+    background: radial-gradient(circle, rgba(255, 180, 40, 0.18) 0%, transparent 65%);
+    top: 55vh;
+    right: -6vw;
+    animation: drift-3 48s ease-in-out infinite alternate;
+  }
+  @keyframes drift-1 {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(18vw, 30vh) scale(1.1); }
+    100% { transform: translate(-4vw, 50vh) scale(0.95); }
+  }
+  @keyframes drift-2 {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(-22vw, -25vh) scale(1.15); }
+    100% { transform: translate(-8vw, -55vh) scale(1); }
+  }
+  @keyframes drift-3 {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-28vw, -30vh) scale(1.3); }
+  }
+
+  /* ===== SIDE TICKERS (race-timing strip feel) ===== */
+  .side-ticker {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 34px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 3;
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  @media (min-width: 1320px) {
+    .side-ticker { display: flex; }
+  }
+  .side-ticker.left  { left:  calc(50% - 590px - 34px - 16px); }
+  .side-ticker.right { right: calc(50% - 590px - 34px - 16px); }
+  .side-ticker-track {
+    writing-mode: vertical-rl;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: rgba(255, 74, 28, 0.55);
+    white-space: nowrap;
+    padding: 2rem 0;
+  }
+  .side-ticker.left .side-ticker-track  { animation: ticker-up   55s linear infinite; }
+  .side-ticker.right .side-ticker-track { animation: ticker-down 65s linear infinite; }
+  @keyframes ticker-up {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-50%); }
+  }
+  @keyframes ticker-down {
+    from { transform: translateY(-50%); }
+    to   { transform: translateY(0); }
+  }
+
+  /* ===== SCROLL PROGRESS (thin accent line on shell edge) ===== */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    right: calc(50% - 590px - 2px);
+    width: 2px;
+    height: 0%;
+    background: var(--accent);
+    z-index: 50;
+    pointer-events: none;
+    box-shadow: 0 0 12px rgba(255, 74, 28, 0.6);
+    transition: height 0.08s linear;
+  }
+  @media (max-width: 1180px) {
+    .scroll-progress { right: 0; }
+  }
+
+  /* ===== FLOATING SIDE PILLS (subtle athletic bib numbers) ===== */
+  .float-pill {
+    position: fixed;
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 0.35rem 0.7rem;
+    border: 1px solid rgba(255, 74, 28, 0.4);
+    border-radius: 999px;
+    background: rgba(10, 9, 8, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0;
+    display: none;
+  }
+  @media (min-width: 1320px) {
+    .float-pill { display: block; }
+  }
+  .float-pill.p1 {
+    left: calc(50% - 590px - 120px);
+    top: 25vh;
+    animation: float-pill-1 18s ease-in-out 1.5s infinite;
+  }
+  .float-pill.p2 {
+    right: calc(50% - 590px - 120px);
+    top: 62vh;
+    animation: float-pill-2 22s ease-in-out 3s infinite;
+  }
+  @keyframes float-pill-1 {
+    0%, 100% { transform: translateY(0); opacity: 0; }
+    15%, 85% { opacity: 0.85; }
+    50%      { transform: translateY(-40px); }
+  }
+  @keyframes float-pill-2 {
+    0%, 100% { transform: translateY(0); opacity: 0; }
+    15%, 85% { opacity: 0.85; }
+    50%      { transform: translateY(40px); }
+  }
   body::before {
     content: '';
     position: fixed;
@@ -683,6 +832,23 @@
 </head>
 <body>
 
+<!-- ===================== AMBIENT DECOR ===================== -->
+<div class="glow glow-1" aria-hidden="true"></div>
+<div class="glow glow-2" aria-hidden="true"></div>
+<div class="glow glow-3" aria-hidden="true"></div>
+
+<aside class="side-ticker left" aria-hidden="true">
+  <div class="side-ticker-track">DEEP · END · EST · MMXXVI · A PROJECT BY LIAM KALEVI · STOCKHOLM · SWEDEN · IN MOTION · DEEP · END · EST · MMXXVI · A PROJECT BY LIAM KALEVI · STOCKHOLM · SWEDEN · IN MOTION ·</div>
+</aside>
+<aside class="side-ticker right" aria-hidden="true">
+  <div class="side-ticker-track">ONGOING · 2026 SEASON · LIVE · BIB 37 · KALEVI AB · RED BULL · CONFIRMED · ONGOING · 2026 SEASON · LIVE · BIB 37 · KALEVI AB · RED BULL · CONFIRMED ·</div>
+</aside>
+
+<div class="float-pill p1" aria-hidden="true">Ep. 01 · Ongoing</div>
+<div class="float-pill p2" aria-hidden="true">Live · 2026</div>
+
+<div class="scroll-progress" aria-hidden="true"></div>
+
 <!-- ===================== NAV ===================== -->
 <div class="nav">
   <div class="nav-mark">DEEP <span>/</span> END</div>
@@ -970,6 +1136,19 @@
         heroImg.style.transform = `translateY(${y * 0.12}px) scale(1.04)`;
       }
     }, { passive: true });
+  }
+
+  // Scroll progress indicator
+  const progressBar = document.querySelector('.scroll-progress');
+  if (progressBar) {
+    const updateProgress = () => {
+      const h = document.documentElement;
+      const total = h.scrollHeight - h.clientHeight;
+      const pct = total > 0 ? (h.scrollTop / total) * 100 : 0;
+      progressBar.style.height = pct + '%';
+    };
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
   }
 </script>
 
